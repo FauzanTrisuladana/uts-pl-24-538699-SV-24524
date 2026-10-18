@@ -9,7 +9,6 @@ export interface ListPJParams {
 
 export interface CreatePJPayload {
   nama: string
-  no_telepon?: string | null
 }
 
 export const penanggungJawabService = {

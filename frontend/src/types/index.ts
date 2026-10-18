@@ -56,7 +56,6 @@ export interface Akun {
 export interface PenanggungJawab {
   id: number
   nama: string
-  no_telepon?: string | null
 }
 
 export interface Transaksi {

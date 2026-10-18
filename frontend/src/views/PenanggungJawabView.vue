@@ -13,7 +13,6 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Phone,
 } from 'lucide-vue-next'
 
 const items = ref<PenanggungJawab[]>([])
@@ -29,7 +28,6 @@ const isModalOpen = ref(false)
 const isEditing = ref(false)
 const editId = ref<number | null>(null)
 const formNama = ref('')
-const formNoTelepon = ref('')
 const isFormLoading = ref(false)
 const formError = ref('')
 
@@ -62,7 +60,6 @@ function openAddModal() {
   isEditing.value = false
   editId.value = null
   formNama.value = ''
-  formNoTelepon.value = ''
   formError.value = ''
   isModalOpen.value = true
 }
@@ -71,7 +68,6 @@ function openEditModal(item: PenanggungJawab) {
   isEditing.value = true
   editId.value = item.id
   formNama.value = item.nama
-  formNoTelepon.value = item.no_telepon || ''
   formError.value = ''
   isModalOpen.value = true
 }
@@ -93,12 +89,10 @@ async function handleSave() {
     if (isEditing.value && editId.value) {
       await penanggungJawabService.update(editId.value, {
         nama: formNama.value,
-        no_telepon: formNoTelepon.value || null,
       })
     } else {
       await penanggungJawabService.create({
         nama: formNama.value,
-        no_telepon: formNoTelepon.value || null,
       })
     }
     closeModal()
@@ -180,19 +174,18 @@ onMounted(() => {
               <tr>
                 <th class="px-6 py-3.5 w-16">No</th>
                 <th class="px-6 py-3.5">Nama</th>
-                <th class="px-6 py-3.5">Nomor Telepon</th>
                 <th class="px-6 py-3.5 text-right w-32">Aksi</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
               <tr v-if="isLoading" class="text-center">
-                <td colspan="4" class="py-12">
+                <td colspan="3" class="py-12">
                   <Loader2 class="w-6 h-6 animate-spin mx-auto text-blue-600 mb-2" />
                   <span class="text-xs text-slate-400">Memuat data...</span>
                 </td>
               </tr>
               <tr v-else-if="items.length === 0" class="text-center">
-                <td colspan="4" class="py-12 text-slate-400 text-sm">
+                <td colspan="3" class="py-12 text-slate-400 text-sm">
                   Tidak ada data penanggung jawab ditemukan.
                 </td>
               </tr>
@@ -202,13 +195,6 @@ onMounted(() => {
                 </td>
                 <td class="px-6 py-4 font-semibold text-slate-900">
                   {{ item.nama }}
-                </td>
-                <td class="px-6 py-4 text-slate-600">
-                  <span v-if="item.no_telepon" class="inline-flex items-center gap-1.5">
-                    <Phone class="w-3.5 h-3.5 text-slate-400" />
-                    {{ item.no_telepon }}
-                  </span>
-                  <span v-else class="text-slate-400 italic text-xs">Tidak ada</span>
                 </td>
                 <td class="px-6 py-4 text-right">
                   <div class="inline-flex items-center gap-1">
@@ -283,16 +269,6 @@ onMounted(() => {
                 type="text"
                 required
                 placeholder="Contoh: Budi Santoso"
-                class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor Telepon (Opsional)</label>
-              <input
-                v-model="formNoTelepon"
-                type="text"
-                placeholder="Contoh: 081234567890"
                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>

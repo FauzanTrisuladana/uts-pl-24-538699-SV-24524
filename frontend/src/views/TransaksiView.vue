@@ -558,7 +558,7 @@ onMounted(async () => {
               >
                 <option value="">Tidak Ada / Umum</option>
                 <option v-for="pj in pjs" :key="pj.id" :value="pj.id">
-                  {{ pj.nama }} {{ pj.no_telepon ? `(${pj.no_telepon})` : '' }}
+                  {{ pj.nama }}
                 </option>
               </select>
             </div>
