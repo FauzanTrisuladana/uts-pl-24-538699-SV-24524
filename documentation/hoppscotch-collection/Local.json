@@ -5,7 +5,7 @@
   "variables": [
     {
       "key": "link",
-      "initialValue": "http://127.0.0.1:8003/api",
+      "initialValue": "http://127.0.0.1:8000/api",
       "currentValue": "",
       "secret": false
     }
