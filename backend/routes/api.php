@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PenanggungJawabController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -57,5 +58,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/user/{id}/toggle-status', [UserController::class, 'toggleStatus']);
         Route::apiResource('user', UserController::class)
             ->except(['show']);
+
+        /**
+         * Routes untuk manajemen penanggung jawab
+         * Get /api/penanggung-jawab -> get list penanggung jawab
+         * Get /api/penanggung-jawab/{id} -> get detail transaksi penanggung jawab dengan id tertentu
+         * Get /api/penanggung-jawab/dropdown -> get list penanggung jawab untuk dropdown (hanya id dan nama)
+         * Post /api/penanggung-jawab -> create penanggung jawab baru
+         * Put /api/penanggung-jawab/{id} -> update penanggung jawab dengan id tertentu
+         * Delete /api/penanggung-jawab/{id} -> delete penanggung jawab
+         */
+        Route::get('/penanggung-jawab/dropdown', [PenanggungJawabController::class, 'dropdown']);
+        Route::apiResource('penanggung-jawab', PenanggungJawabController::class);
     });
 });
