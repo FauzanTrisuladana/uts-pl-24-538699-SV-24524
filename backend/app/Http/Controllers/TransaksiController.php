@@ -104,8 +104,10 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::findOrFail($id);
 
         $transaksi = DB::transaction(function () use ($transaksi, $validated) {
+            $date = $transaksi->date->format('Y-m-d');
+
             $riil = RiilHistory::where('akun_id', $transaksi->akun_id)
-                ->where('date', '<=', $transaksi->date)
+                ->where('date', '<=', $date)
                 ->orderBy('date', 'desc')
                 ->orderBy('id', 'desc')
                 ->first();
@@ -123,7 +125,7 @@ class TransaksiController extends Controller
 
             RiilHistory::updateOrCreate([
                 'akun_id' => $transaksi->akun_id,
-                'date' => $transaksi->date,
+                'date' => $date,
             ], [
                 'riil' => $jumlah,
                 'verified' => false,
@@ -131,7 +133,7 @@ class TransaksiController extends Controller
 
             $this->updateRiilSetelahnya(
                 akunId: $transaksi->akun_id,
-                date: $transaksi->date,
+                date: $date,
                 selisih: $selisih,
                 tipe: $transaksi->jenis_transaksi,
             );
@@ -152,8 +154,10 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::findOrFail($id);
 
         DB::transaction(function () use ($transaksi) {
+            $date = $transaksi->date->format('Y-m-d');
+
             $riil = RiilHistory::where('akun_id', $transaksi->akun_id)
-                ->where('date', '<=', $transaksi->date)
+                ->where('date', '<=', $date)
                 ->orderBy('date', 'desc')
                 ->orderBy('id', 'desc')
                 ->first();
@@ -161,7 +165,7 @@ class TransaksiController extends Controller
             $jumlah = $transaksi->jenis_transaksi === 'pemasukan' ? $jumlah - $transaksi->jumlah : $jumlah + $transaksi->jumlah;
             RiilHistory::updateOrCreate([
                 'akun_id' => $transaksi->akun_id,
-                'date' => $transaksi->date,
+                'date' => $date,
             ], [
                 'riil' => $jumlah,
                 'verified' => false,
@@ -169,7 +173,7 @@ class TransaksiController extends Controller
 
             $this->updateRiilSetelahnya(
                 akunId: $transaksi->akun_id,
-                date: $transaksi->date,
+                date: $date,
                 selisih: $transaksi->jumlah,
                 tipe: $transaksi->jenis_transaksi === 'pemasukan' ? 'pengeluaran' : 'pemasukan',
             );

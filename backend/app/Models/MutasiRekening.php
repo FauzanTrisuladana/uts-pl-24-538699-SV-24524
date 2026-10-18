@@ -34,6 +34,11 @@ class MutasiRekening extends Model
         'jumlah' => 'integer',
     ];
 
+    public function setDateAttribute($value): void
+    {
+        $this->attributes['date'] = $value ? Carbon::parse($value)->format('Y-m-d') : null;
+    }
+
     public function akunDebit(): BelongsTo
     {
         return $this->belongsTo(Akun::class, 'akun_debit_id')->withTrashed();

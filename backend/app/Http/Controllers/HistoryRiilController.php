@@ -44,7 +44,7 @@ class HistoryRiilController extends Controller
             $historyRiil->save();
 
             RiilHistory::where('akun_id', $historyRiil->akun_id)
-                ->where('date', '<', $historyRiil->date)
+                ->where('date', '<', $historyRiil->date->format('Y-m-d'))
                 ->update(['verified' => true]);
 
             $akun = $historyRiil->akun;

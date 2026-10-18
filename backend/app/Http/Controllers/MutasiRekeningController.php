@@ -105,7 +105,7 @@ class MutasiRekeningController extends Controller
         $jumlahLama = $mutasi->jumlah;
         $akunDebitId = $mutasi->akun_debit_id;
         $akunKreditId = $mutasi->akun_kredit_id;
-        $date = $mutasi->date;
+        $date = $mutasi->date->format('Y-m-d');
 
         $mutasi = DB::transaction(function () use ($validated, $mutasi, $jumlahLama, $akunDebitId, $akunKreditId, $date) {
             $mutasi->update($validated);
@@ -165,9 +165,11 @@ class MutasiRekeningController extends Controller
         $mutasi = MutasiRekening::findOrFail($id);
 
         DB::transaction(function () use ($mutasi) {
+            $date = $mutasi->date->format('Y-m-d');
+
             // Update riil history akun debit - ambil dari riil history terakhir sebelum tanggal
             $riilDebit = RiilHistory::where('akun_id', $mutasi->akun_debit_id)
-                ->where('date', '<=', $mutasi->date)
+                ->where('date', '<=', $date)
                 ->orderBy('date', 'desc')
                 ->orderBy('id', 'desc')
                 ->first();
@@ -175,7 +177,7 @@ class MutasiRekeningController extends Controller
             $jumlahDebit -= $mutasi->jumlah;
             RiilHistory::updateOrCreate([
                 'akun_id' => $mutasi->akun_debit_id,
-                'date' => $mutasi->date,
+                'date' => $date,
             ], [
                 'riil' => $jumlahDebit,
                 'verified' => false,
@@ -183,7 +185,7 @@ class MutasiRekeningController extends Controller
 
             // Update riil history akun kredit - ambil dari riil history terakhir sebelum tanggal
             $riilKredit = RiilHistory::where('akun_id', $mutasi->akun_kredit_id)
-                ->where('date', '<=', $mutasi->date)
+                ->where('date', '<=', $date)
                 ->orderBy('date', 'desc')
                 ->orderBy('id', 'desc')
                 ->first();
@@ -191,15 +193,15 @@ class MutasiRekeningController extends Controller
             $jumlahKredit += $mutasi->jumlah;
             RiilHistory::updateOrCreate([
                 'akun_id' => $mutasi->akun_kredit_id,
-                'date' => $mutasi->date,
+                'date' => $date,
             ], [
                 'riil' => $jumlahKredit,
                 'verified' => false,
             ]);
 
             // Update semua riil history setelah tanggal ini dengan nilai baru
-            $this->updateRiilSetelahnya($mutasi->akun_debit_id, $mutasi->date, -$mutasi->jumlah, 'debit');
-            $this->updateRiilSetelahnya($mutasi->akun_kredit_id, $mutasi->date, -$mutasi->jumlah, 'kredit');
+            $this->updateRiilSetelahnya($mutasi->akun_debit_id, $date, -$mutasi->jumlah, 'debit');
+            $this->updateRiilSetelahnya($mutasi->akun_kredit_id, $date, -$mutasi->jumlah, 'kredit');
 
             $mutasi->delete();
 

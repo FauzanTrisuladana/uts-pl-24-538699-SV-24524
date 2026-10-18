@@ -33,6 +33,11 @@ class RiilHistory extends Model
         'riil' => 'decimal:2',
     ];
 
+    public function setDateAttribute($value): void
+    {
+        $this->attributes['date'] = $value ? Carbon::parse($value)->format('Y-m-d') : null;
+    }
+
     public function akun()
     {
         return $this->belongsTo(Akun::class, 'akun_id')->withTrashed();
