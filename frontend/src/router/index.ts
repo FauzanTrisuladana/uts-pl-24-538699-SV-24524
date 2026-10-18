@@ -71,22 +71,20 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   const { isAuthenticated, isBendahara } = useAuth()
 
   if (to.meta.requiresAuth && !isAuthenticated.value) {
-    return next({ name: 'login', query: { redirect: to.fullPath } })
+    return { name: 'login', query: { redirect: to.fullPath } }
   }
 
   if (to.meta.guestOnly && isAuthenticated.value) {
-    return next({ name: 'dashboard' })
+    return { name: 'dashboard' }
   }
 
   if (to.meta.requiresBendahara && !isBendahara.value) {
-    return next({ name: 'dashboard' })
+    return { name: 'dashboard' }
   }
-
-  next()
 })
 
 export default router
