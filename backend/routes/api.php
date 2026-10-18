@@ -3,6 +3,7 @@
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HistoryRiilController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MutasiRekeningController;
 use App\Http\Controllers\PenanggungJawabController;
 use App\Http\Controllers\ProfileController;
@@ -43,6 +44,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/update', 'update');
         Route::put('/update-password', 'updatePassword');
         Route::delete('/delete', 'delete');
+    });
+
+    /**
+     * Route untuk laporan
+     * Get /api/laporan -> get laporan berdasarkan filter yang diberikan
+     * Get /api/laporan/pdf -> export laporan dalam format PDF
+     */
+    Route::prefix('laporan')->controller(LaporanController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/pdf', 'pdf');
     });
 
     /**
