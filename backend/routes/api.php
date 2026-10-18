@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HistoryRiilController;
 use App\Http\Controllers\PenanggungJawabController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -83,5 +84,15 @@ Route::middleware('auth:sanctum')->group(function () {
          */
         Route::get('/akun/dropdown', [AkunController::class, 'dropdown']);
         Route::apiResource('akun', AkunController::class);
+
+        /**
+         * Route untuk History Riil
+         * Get /api/history-riil -> get list transaksi riil
+         * Put /api/history-riil/{id}/verify -> verify transaksi riil dengan id tertentu
+         */
+        Route::prefix('history-riil')->controller(HistoryRiilController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::put('/{id}/verify', 'verify');
+        });
     });
 });
