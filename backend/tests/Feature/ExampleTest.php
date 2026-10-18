@@ -16,4 +16,12 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_api_status_returns_ok_response(): void
+    {
+        $response = $this->getJson('/api/status');
+
+        $response->assertStatus(200)
+            ->assertJson(['status' => 'ok']);
+    }
 }
