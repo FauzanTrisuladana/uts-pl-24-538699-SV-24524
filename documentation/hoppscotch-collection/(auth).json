@@ -1,0 +1,1341 @@
+{
+  "v": 12,
+  "id": "cmq57gu540eyohp1mlno1kdcg",
+  "name": "(Auth)",
+  "folders": [
+    {
+      "v": 12,
+      "id": "cmq642ai60afqfw1m3c1fn6sl",
+      "name": "Profile - Profile Management",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "id": "cmq642aij0afsfw1mk167fy3c",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Profile",
+          "method": "GET",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/me",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil profile user yang sedang login",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq642aij0afufw1m30rkqcu0",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"name\": \"Fauzan Trisuladana\",\n  \"email\": \"fauzantrisuladana@gmail.com\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "Update Profile",
+          "method": "PUT",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/update",
+          "responses": {},
+          "testScript": "",
+          "description": "Update profile user yang sedang login (name, email)",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq642aij0afwfw1mls7odl06",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"current_password\": \"password\",\n  \"password\": \"passwordbaru123\",\n  \"password_confirmation\": \"passwordbaru123\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "Update Password",
+          "method": "PUT",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/update-password",
+          "responses": {},
+          "testScript": "",
+          "description": "Update password user yang sedang login",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq642aik0afyfw1m9ahqr9a6",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Delete Account",
+          "method": "DELETE",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/delete",
+          "responses": {},
+          "testScript": "",
+          "description": "Menghapus akun user yang sedang login (soft delete)",
+          "preRequestScript": "",
+          "requestVariables": []
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [
+        {
+          "key": "prefix",
+          "initialValue": "/profile",
+          "currentValue": "",
+          "secret": false
+        }
+      ],
+      "description": null,
+      "preRequestScript": "",
+      "testScript": ""
+    },
+    {
+      "v": 12,
+      "id": "cmq6j65em0nhmfw1ms0jb3n5u",
+      "name": "User - User Management",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "id": "cmq6j65ey0nhofw1m66owhcpa",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Users",
+          "method": "GET",
+          "params": [
+            {
+              "key": "page",
+              "value": "1",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "per_page",
+              "value": "10",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "search",
+              "value": "",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "role[]",
+              "value": "biasa",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "role[]",
+              "value": "bendahara",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "status[]",
+              "value": "Aktif",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "status[]",
+              "value": "Pending",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "status[]",
+              "value": "Tidak Aktif",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil daftar user dengan filter dan pagination",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq6j65ey0nhqfw1m1ob5hiyf",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"nama\": \"User Baru\",\n  \"email\": \"userbaru@example.com\",\n  \"password\": \"password\",\n  \"role\": \"biasa\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "Create User",
+          "method": "POST",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Membuat user baru (default status: Aktif)",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq6j65ey0nhsfw1m6719xyoj",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"role\": \"bendahara\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "Update User",
+          "method": "PUT",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/5",
+          "responses": {},
+          "testScript": "",
+          "description": "Update user berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq6j65ey0nhufw1mpgdfk1ow",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Toggle Status User",
+          "method": "PUT",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/5/toggle-status",
+          "responses": {},
+          "testScript": "",
+          "description": "Toggle status user (Aktif ↔ Tidak Aktif)",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq6j65ez0nhwfw1merz2fqyo",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Delete User",
+          "method": "DELETE",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/5",
+          "responses": {},
+          "testScript": "",
+          "description": "Menghapus user berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [
+        {
+          "key": "prefix",
+          "initialValue": "/user",
+          "currentValue": "",
+          "secret": false
+        }
+      ],
+      "description": null,
+      "preRequestScript": "",
+      "testScript": ""
+    },
+    {
+      "v": 12,
+      "id": "cmq869xau1rychp1mbfbhfypn",
+      "name": "Penanggung Jawab - Penanggung Jawab Management",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "id": "cmq869xbg1ryehp1mrmeftcu2",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Penanggung Jawab",
+          "method": "GET",
+          "params": [
+            {
+              "key": "page",
+              "value": "1",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "per_page",
+              "value": "10",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "search",
+              "value": "",
+              "active": false,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil daftar penanggung jawab dengan filter search",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq869xbg1ryghp1ml2lbqiwh",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Penanggung Jawab Detail",
+          "method": "GET",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/1",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil detail penanggung jawab beserta transaksinya",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Penanggung Jawab Dropdown",
+          "method": "GET",
+          "params": [
+            {
+              "key": "search",
+              "value": "",
+              "active": false,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/dropdown",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil daftar penanggung jawab dengan filter search",
+          "preRequestScript": "",
+          "requestVariables": [],
+          "id": "cmqdnh5os013chh1m12nh8ymg"
+        },
+        {
+          "v": "17",
+          "id": "cmq869xbg1ryihp1mf73dfqgu",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"nama\": \"Penanggung Jawab Baru\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "Create Penanggung Jawab",
+          "method": "POST",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Membuat penanggung jawab baru",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq869xbg1rykhp1m9wtpmrmt",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"nama\": \"Penanggung Jawab Update\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "Update Penanggung Jawab",
+          "method": "PUT",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/3",
+          "responses": {},
+          "testScript": "",
+          "description": "Update penanggung jawab berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq869xbg1rymhp1mz5vd26nj",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Delete Penanggung Jawab",
+          "method": "DELETE",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/3",
+          "responses": {},
+          "testScript": "",
+          "description": "Menghapus penanggung jawab berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [
+        {
+          "key": "prefix",
+          "initialValue": "/penanggung-jawab",
+          "currentValue": "",
+          "secret": false
+        }
+      ],
+      "description": null,
+      "preRequestScript": "",
+      "testScript": ""
+    },
+    {
+      "v": 12,
+      "id": "cmq8ssvsp1uochp1m83rrg8gb",
+      "name": "History Riil - History Riil Management",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "id": "cmq8ssvt91uoehp1mi1t4qdf7",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get History Riil",
+          "method": "GET",
+          "params": [
+            {
+              "key": "page",
+              "value": "1",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "per_page",
+              "value": "10",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "search",
+              "value": "",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "tanggal_mulai",
+              "value": "2026-01-01",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "tanggal_selesai",
+              "value": "2026-12-31",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "kas pemuda",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "17 an",
+              "active": false,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil daftar history riil dengan filter (search, tanggal, kas) dan pagination",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmq8ssvt91uoghp1miwy3ex8e",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Verify History Riil",
+          "method": "PUT",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/2/verify",
+          "responses": {},
+          "testScript": "",
+          "description": "Verifikasi history riil berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [
+        {
+          "key": "prefix",
+          "initialValue": "/history-riil",
+          "currentValue": "",
+          "secret": false
+        }
+      ],
+      "description": null,
+      "preRequestScript": "",
+      "testScript": ""
+    },
+    {
+      "v": 12,
+      "id": "cmqapuoj32g9lfw1m5jfurb4t",
+      "name": "Akun - Akun Management",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "id": "cmqapuojk2g9nfw1mn7my99lk",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Akun",
+          "method": "GET",
+          "params": [
+            {
+              "key": "page",
+              "value": "1",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "per_page",
+              "value": "10",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "search",
+              "value": "",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "17 an",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "kas pemuda",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil daftar akun dengan filter (search, kas) dan pagination",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqapuojk2g9pfw1mlp0j1hn7",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Akun Detail",
+          "method": "GET",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/1",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil detail akun beserta transaksinya",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqapuojk2g9rfw1mts892vr8",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Akun Dropdown",
+          "method": "GET",
+          "params": [
+            {
+              "key": "search",
+              "value": "",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "17 an",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "kas pemuda",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/dropdown",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil list akun untuk dropdown (hanya id dan nama_akun)",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqapuojk2g9tfw1mkl88smye",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"nama_akun\": \"Kas Besar Pemuda\",\n  \"kas\": \"kas pemuda\",\n  \"keterangan\": \"Kas utama pemuda\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "Create Akun",
+          "method": "POST",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Membuat akun baru",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqapuojl2g9vfw1mv83qakqt",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"nama_akun\": \"Kas Besar Pemuda Updated\",\n  \"kas\": \"17 an\",\n  \"keterangan\": \"Keterangan updated\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "Update Akun",
+          "method": "PUT",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/1",
+          "responses": {},
+          "testScript": "",
+          "description": "Update akun berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqapuojl2g9xfw1mnibn9go4",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Delete Akun",
+          "method": "DELETE",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/1",
+          "responses": {},
+          "testScript": "",
+          "description": "Menghapus akun berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [
+        {
+          "key": "prefix",
+          "initialValue": "/akun",
+          "currentValue": "",
+          "secret": false
+        }
+      ],
+      "description": null,
+      "preRequestScript": "",
+      "testScript": ""
+    },
+    {
+      "v": 12,
+      "id": "cmqayor9a2rv0hp1m5l586ozq",
+      "name": "Mutasi Rekening - Mutasi Rekening Management",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "id": "cmqayor9q2rv2hp1msxbrak5l",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Mutasi Rekening",
+          "method": "GET",
+          "params": [
+            {
+              "key": "page",
+              "value": "1",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "per_page",
+              "value": "10",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "search",
+              "value": "",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "tanggal_mulai",
+              "value": "2026-01-01",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "tanggal_selesai",
+              "value": "2026-12-31",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "17 an",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "kas pemuda",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "akun",
+              "value": "",
+              "active": false,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil daftar mutasi rekening dengan filter (search, tanggal, kas, akun) dan pagination",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqayor9q2rv4hp1mzhw74qon",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"date\": \"2026-06-15\",\n  \"kas\": \"kas pemuda\",\n  \"akun_debit_id\": 1,\n  \"akun_kredit_id\": 3,\n  \"jumlah\": 100000\n}",
+            "contentType": "application/json"
+          },
+          "name": "Create Mutasi Rekening",
+          "method": "POST",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Membuat mutasi rekening baru",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqayor9q2rv6hp1mjma9re5k",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"jumlah\": 150000,\n  \"keterangan\": \"Keterangan mutasi\"\n}",
+            "contentType": "application/json"
+          },
+          "name": "Update Mutasi Rekening",
+          "method": "PUT",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/8",
+          "responses": {},
+          "testScript": "",
+          "description": "Update mutasi rekening berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqayor9q2rv8hp1msfrsfay7",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": [],
+            "contentType": "application/json"
+          },
+          "name": "Delete Mutasi Rekening",
+          "method": "DELETE",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/8",
+          "responses": {},
+          "testScript": "",
+          "description": "Menghapus mutasi rekening berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [
+        {
+          "key": "prefix",
+          "initialValue": "/mutasi-rekening",
+          "currentValue": "",
+          "secret": false
+        }
+      ],
+      "description": null,
+      "preRequestScript": "",
+      "testScript": ""
+    },
+    {
+      "v": 12,
+      "id": "cmqdgut0h00hfhh1mxenie1mh",
+      "name": "Transaksi - Transaksi Management",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Transaksi",
+          "method": "GET",
+          "params": [
+            {
+              "key": "page",
+              "value": "1",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "per_page",
+              "value": "10",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "search",
+              "value": "",
+              "active": false,
+              "description": ""
+            },
+            {
+              "key": "tanggal_mulai",
+              "value": "2026-01-01",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "tanggal_selesai",
+              "value": "2026-12-31",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "jenis_transaksi[]",
+              "value": "pemasukan",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "jenis_transaksi[]",
+              "value": "pengeluaran",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "17 an",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "kas[]",
+              "value": "kas pemuda",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "akun",
+              "value": "",
+              "active": false,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil daftar transaksi dengan filter (search, tanggal, jenis, kas, akun) dan pagination",
+          "preRequestScript": "",
+          "requestVariables": [],
+          "id": "cmqfxxsf60jxhfn1muw2yj5lm"
+        },
+        {
+          "v": "17",
+          "id": "cmqdgut0w00hjhh1mzqm35yzx",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"deskripsi\": \"Transaksi pemasukan kas\",\n  \"date\": \"2026-06-15\",\n  \"jenis_transaksi\": \"pemasukan\",\n  \"akun_id\": 1,\n  \"penanggung_jawab_id\": 1,\n  \"jumlah\": 100000\n}",
+            "contentType": "application/json"
+          },
+          "name": "Create Transaksi",
+          "method": "POST",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Membuat transaksi baru",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqdgut0w00hlhh1mrpe4lc71",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": "{\n  \"deskripsi\": \"Transaksi pemasukan kas updated\",\n  \"penanggung_jawab_id\": 2,\n  \"jumlah\": 150000\n}",
+            "contentType": "application/json"
+          },
+          "name": "Update Transaksi",
+          "method": "PUT",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/82",
+          "responses": {},
+          "testScript": "",
+          "description": "Update transaksi berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "id": "cmqdgut0w00hnhh1mssn9d2jr",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Delete Transaksi",
+          "method": "DELETE",
+          "params": [],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/82",
+          "responses": {},
+          "testScript": "",
+          "description": "Menghapus transaksi berdasarkan ID",
+          "preRequestScript": "",
+          "requestVariables": []
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [
+        {
+          "key": "prefix",
+          "initialValue": "/transaksi",
+          "currentValue": "",
+          "secret": false
+        }
+      ],
+      "description": null,
+      "preRequestScript": "",
+      "testScript": ""
+    },
+    {
+      "v": 12,
+      "id": "cmqfxmzbs0ie3hh1mgsnparjz",
+      "name": "Laporan - Get laporan",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "id": "cmqdgut0w00hhhh1mjgc6c8pw",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Laporan",
+          "method": "GET",
+          "params": [
+            {
+              "key": "tanggal_mulai",
+              "value": "2026-6-1",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "tanggal_selesai",
+              "value": "2026-6-16",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "jenis_transaksi[]",
+              "value": "pemasukan",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "jenis_transaksi[]",
+              "value": "pengeluaran",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "kas",
+              "value": "kas pemuda",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "akun",
+              "value": "1",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil daftar transaksi dengan filter (search, tanggal, jenis, kas, akun) dan pagination",
+          "preRequestScript": "",
+          "requestVariables": []
+        },
+        {
+          "v": "17",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Laporan - PDF",
+          "method": "GET",
+          "params": [
+            {
+              "key": "tanggal_mulai",
+              "value": "2026-5-1",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "tanggal_selesai",
+              "value": "2026-6-23",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "jenis_transaksi[]",
+              "value": "pemasukan",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "jenis_transaksi[]",
+              "value": "pengeluaran",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "kas",
+              "value": "kas pemuda",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "akun",
+              "value": "",
+              "active": false,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>/pdf",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil daftar transaksi dengan filter (search, tanggal, jenis, kas, akun) dan pagination",
+          "preRequestScript": "",
+          "requestVariables": [],
+          "id": "cmqkyxglh27hnhh1mm7xmveb5"
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [
+        {
+          "key": "prefix",
+          "initialValue": "/laporan",
+          "currentValue": "",
+          "secret": false
+        }
+      ],
+      "description": null,
+      "preRequestScript": "",
+      "testScript": ""
+    },
+    {
+      "v": 12,
+      "id": "cmqsx2t4t3y9ghh1m0l76js2n",
+      "name": "Dashboard - Dashboard",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "id": "cmqsx2t583y9ihh1m4a78vu5i",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "body": null,
+            "contentType": null
+          },
+          "name": "Get Dashboard",
+          "method": "GET",
+          "params": [
+            {
+              "key": "kas",
+              "value": "kas pemuda",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "headers": [],
+          "endpoint": "<<link>><<prefix>>",
+          "responses": {},
+          "testScript": "",
+          "description": "Mengambil data dashboard (summary pemasukan, pengeluaran, total saldo)",
+          "preRequestScript": "",
+          "requestVariables": []
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [
+        {
+          "key": "prefix",
+          "initialValue": "/dashboard",
+          "currentValue": "",
+          "secret": false
+        }
+      ],
+      "description": null,
+      "preRequestScript": "",
+      "testScript": ""
+    }
+  ],
+  "requests": [],
+  "auth": {
+    "authType": "bearer",
+    "token": "<<token>>",
+    "authActive": true
+  },
+  "headers": [],
+  "variables": [],
+  "description": null,
+  "preRequestScript": "",
+  "testScript": ""
+}

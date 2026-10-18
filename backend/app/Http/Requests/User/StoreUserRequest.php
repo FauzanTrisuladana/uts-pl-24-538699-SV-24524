@@ -1,0 +1,107 @@
+<?php
+
+namespace App\Http\Requests\User;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreUserRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * This method is called before validation is applied.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'password' => $this->password ?? 'password',
+            'status' => 'Aktif',
+            'activated_at' => now(),
+        ]);
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules(): array
+    {
+        return [
+            'nama' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users,email',
+            ],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+            ],
+            'role' => [
+                'required',
+                'string',
+                'in:biasa,bendahara',
+            ],
+            'status' => [
+                'required',
+                'string',
+                'in:Aktif,Tidak Aktif,Pending',
+            ],
+            'activated_at' => [
+                'required',
+                'date',
+            ],
+        ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * Used to add additional validation after the main rules.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            //
+        });
+    }
+
+    /**
+     * Handle a passed validation attempt.
+     *
+     * This method is called after validation is successful.
+     */
+    protected function passedValidation(): void
+    {
+        //
+    }
+
+    /**
+     * Handle failed authorization.
+     *
+     * @return void
+     */
+    protected function failedAuthorization()
+    {
+        abort(403, 'Tidak memiliki izin untuk melakukan aksi ini');
+    }
+}
