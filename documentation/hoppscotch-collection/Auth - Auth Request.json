@@ -1,0 +1,69 @@
+{
+  "v": 12,
+  "id": "cmq4zkz930dowhp1mr1h08kpv",
+  "name": "Auth - Auth Request",
+  "folders": [],
+  "requests": [
+    {
+      "v": "17",
+      "id": "cmq4zkz9m0doyhp1mg8w5dls0",
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "body": {
+        "body": "{\n  \"email\": \"fauzantrisuladana@gmail.com\",\n  \"password\": \"password\"\n}",
+        "contentType": "application/json"
+      },
+      "name": "Login",
+      "method": "POST",
+      "params": [],
+      "headers": [],
+      "endpoint": "<<link>><<prefix>>/login",
+      "responses": {},
+      "testScript": "const res = pw.response.body;\r\n\r\n// Ambil data dasar\r\nconst token = res.auth.token;\r\nconst userId = res.data.id;\r\n\r\n// Simpan ke environment\r\npw.env.set(\"token\", token);\r\npw.env.set(\"user_id\", String(userId));\r\n\r\n\r\n// Debug (biar gampang ngecek)\r\nconsole.log(\"Token:\", token);\r\nconsole.log(\"User ID:\", userId);",
+      "description": null,
+      "preRequestScript": "",
+      "requestVariables": []
+    },
+    {
+      "v": "17",
+      "id": "cmq4zkz9m0dp2hp1msobwkdim",
+      "auth": {
+        "token": "<<token>>",
+        "authType": "bearer",
+        "authActive": true
+      },
+      "body": {
+        "body": "",
+        "contentType": "application/json"
+      },
+      "name": "Logout",
+      "method": "POST",
+      "params": [],
+      "headers": [],
+      "endpoint": "<<link>><<prefix>>/logout",
+      "responses": {},
+      "testScript": "// Hapus token & data user\r\npw.env.unset(\"token\");\r\npw.env.unset(\"user_id\");\r\n\r\nconsole.log(\"Logout berhasil. Semua data env dihapus.\");",
+      "description": null,
+      "preRequestScript": "",
+      "requestVariables": []
+    }
+  ],
+  "auth": {
+    "authType": "none",
+    "authActive": true
+  },
+  "headers": [],
+  "variables": [
+    {
+      "key": "prefix",
+      "initialValue": "/auth",
+      "currentValue": "",
+      "secret": false
+    }
+  ],
+  "description": null,
+  "preRequestScript": "",
+  "testScript": ""
+}

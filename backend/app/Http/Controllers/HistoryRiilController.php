@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\HistoryRiil\IndexHistoryRiilRequest;
+use App\Http\Resources\ApiResourceCollection;
+use App\Http\Resources\RiilHistoryResource;
+use App\Models\RiilHistory;
+use Illuminate\Support\Facades\DB;
+
+class HistoryRiilController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     * Get /api/history-riil
+     */
+    public function index(IndexHistoryRiilRequest $request): ApiResourceCollection
+    {
+        $validated = $request->validated();
+
+        $historyRiil = RiilHistory::with(['akun'])->filter(
+            search: $validated['search'] ?? null,
+            tanggal_mulai: $validated['tanggal_mulai'] ?? null,
+            tanggal_selesai: $validated['tanggal_selesai'] ?? null,
+            kas: $validated['kas'] ?? null,
+        )
+            ->orderBy('date', 'desc')
+            ->paginate($validated['per_page']);
+
+        return RiilHistoryResource::collection($historyRiil)
+            ->message('Data history riil berhasil diambil');
+    }
+
+    /**
+     * Verify the specified history riil record.
+     * Put /api/history-riil/{id}/verify
+     */
+    public function verify(string $id): RiilHistoryResource
+    {
+        $historyRiil = DB::transaction(function () use ($id) {
+            $historyRiil = RiilHistory::findOrFail($id);
+
+            $historyRiil->verified = true;
+            $historyRiil->save();
+
+            RiilHistory::where('akun_id', $historyRiil->akun_id)
+                ->where('date', '<', $historyRiil->date->format('Y-m-d'))
+                ->update(['verified' => true]);
+
+            $akun = $historyRiil->akun;
+            if ($akun) {
+                $akun->update(['riil_terakhir' => $historyRiil->id, 'jumlah' => $historyRiil->riil]);
+            }
+
+            return $historyRiil;
+        });
+
+        return (new RiilHistoryResource($historyRiil))
+            ->message('History riil berhasil diverifikasi');
+    }
+}
