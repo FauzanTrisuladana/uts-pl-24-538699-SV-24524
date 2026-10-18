@@ -1,14 +1,14 @@
-CONTAINER ID  IMAGE                                                COMMAND               CREATED         STATUS                     PORTS                                             NAMES
-f012a52e822a  localhost/be-kpri-bina-sejahtera_laravel:latest      frankenphp php-se...  2 months ago    Up 14 hours                0.0.0.0:8001->80/tcp, 443/tcp, 2019/tcp, 443/udp  presensi
-f6be6ef03299  localhost/be-akuntansi-pemuda_laravel:latest         frankenphp php-se...  2 months ago    Up 14 hours                0.0.0.0:8003->80/tcp, 443/tcp, 2019/tcp, 443/udp  pemuda
-99c660ce7560  docker.io/library/mysql:latest                       mysqld                2 months ago    Up 14 hours                0.0.0.0:3306->3306/tcp, 33060/tcp                 mysql-db
-edb6362da843  docker.io/library/phpmyadmin:latest                  apache2-foregroun...  2 months ago    Up 14 hours                0.0.0.0:8080->80/tcp                              phpmyadmin-web
-e24866defff7  localhost/shortener_laravel:latest                   frankenphp php-se...  2 months ago    Up 14 hours                0.0.0.0:8002->80/tcp, 443/tcp, 2019/tcp, 443/udp  shortener
-6bc8771c5cd5  docker.io/library/postgres:latest                    postgres              4 weeks ago     Up 14 hours                0.0.0.0:5432->5432/tcp                            postgres-db
-4c8b5c1e5f02  docker.io/dpage/pgadmin4:latest                                            4 weeks ago     Up 14 hours                0.0.0.0:8081->80/tcp, 443/tcp                     pgadmin-web
-d5ae2c348242  localhost/kepl-be:latest                             frankenphp php-se...  2 weeks ago     Exited (0) 8 days ago      0.0.0.0:8007->80/tcp, 443/tcp, 2019/tcp, 443/udp  kepl-larevel
-90b7a2761291  localhost/kepl-be:multistage                         frankenphp php-se...  8 days ago      Exited (0) 14 hours ago    0.0.0.0:8007->80/tcp, 443/tcp, 2019/tcp, 443/udp  kepl-laravel-multistage
-a4ccfa622704  docker.io/library/mysql:latest                       mysqld                40 seconds ago  Up 39 seconds (healthy)    0.0.0.0:3307->3306/tcp, 33060/tcp                 uts-kepl-mysql
-085fd8af7558  docker.io/library/phpmyadmin:latest                  apache2-foregroun...  39 seconds ago  Up 39 seconds              0.0.0.0:8082->80/tcp                              uts-kepl-phpmyadmin
-5312c2a27e21  localhost/uts-pl-24-538699-sv-24524_backend:latest   frankenphp php-se...  39 seconds ago  Up 33 seconds (healthy)    0.0.0.0:8007->80/tcp, 443/tcp, 2019/tcp, 443/udp  uts-kepl-backend
-8f04f28de806  localhost/uts-pl-24-538699-sv-24524_frontend:latest  nginx -g daemon o...  39 seconds ago  Up 33 seconds (unhealthy)  0.0.0.0:3001->80/tcp                              uts-kepl-frontend
+CONTAINER ID  IMAGE                                                COMMAND               CREATED         STATUS                   PORTS                                             NAMES
+f012a52e822a  localhost/be-kpri-bina-sejahtera_laravel:latest      frankenphp php-se...  2 months ago    Up 14 hours              0.0.0.0:8001->80/tcp, 443/tcp, 2019/tcp, 443/udp  presensi
+f6be6ef03299  localhost/be-akuntansi-pemuda_laravel:latest         frankenphp php-se...  2 months ago    Up 14 hours              0.0.0.0:8003->80/tcp, 443/tcp, 2019/tcp, 443/udp  pemuda
+99c660ce7560  docker.io/library/mysql:latest                       mysqld                2 months ago    Up 14 hours              0.0.0.0:3306->3306/tcp, 33060/tcp                 mysql-db
+edb6362da843  docker.io/library/phpmyadmin:latest                  apache2-foregroun...  2 months ago    Up 14 hours              0.0.0.0:8080->80/tcp                              phpmyadmin-web
+e24866defff7  localhost/shortener_laravel:latest                   frankenphp php-se...  2 months ago    Up 14 hours              0.0.0.0:8002->80/tcp, 443/tcp, 2019/tcp, 443/udp  shortener
+6bc8771c5cd5  docker.io/library/postgres:latest                    postgres              4 weeks ago     Up 14 hours              0.0.0.0:5432->5432/tcp                            postgres-db
+4c8b5c1e5f02  docker.io/dpage/pgadmin4:latest                                            4 weeks ago     Up 14 hours              0.0.0.0:8081->80/tcp, 443/tcp                     pgadmin-web
+d5ae2c348242  localhost/kepl-be:latest                             frankenphp php-se...  2 weeks ago     Exited (0) 8 days ago    0.0.0.0:8007->80/tcp, 443/tcp, 2019/tcp, 443/udp  kepl-larevel
+90b7a2761291  localhost/kepl-be:multistage                         frankenphp php-se...  8 days ago      Exited (0) 14 hours ago  0.0.0.0:8007->80/tcp, 443/tcp, 2019/tcp, 443/udp  kepl-laravel-multistage
+a4ccfa622704  docker.io/library/mysql:latest                       mysqld                15 minutes ago  Up 15 minutes (healthy)  0.0.0.0:3307->3306/tcp, 33060/tcp                 uts-kepl-mysql
+085fd8af7558  docker.io/library/phpmyadmin:latest                  apache2-foregroun...  15 minutes ago  Up 15 minutes            0.0.0.0:8082->80/tcp                              uts-kepl-phpmyadmin
+5312c2a27e21  localhost/uts-pl-24-538699-sv-24524_backend:latest   frankenphp php-se...  15 minutes ago  Up 15 minutes (healthy)  0.0.0.0:8007->80/tcp, 443/tcp, 2019/tcp, 443/udp  uts-kepl-backend
+cd73bdcf3de1  localhost/uts-pl-24-538699-sv-24524_frontend:latest  nginx -g daemon o...  24 seconds ago  Up 23 seconds (healthy)  0.0.0.0:3001->80/tcp                              uts-kepl-frontend

@@ -32,6 +32,9 @@ RUN if [ -f pnpm-lock.yaml ]; then pnpm run build; else npm run build; fi
 # ==============================================================================
 FROM nginx:1.27-alpine AS runner
 
+# Pasang curl untuk healthcheck monitoring
+RUN apk add --no-cache curl
+
 # Salin konfigurasi kustom Nginx untuk routing SPA dan reverse proxy API
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
@@ -40,7 +43,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Konfigurasi HEALTHCHECK untuk memantau ketersediaan server web Nginx
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-    CMD wget --quiet --tries=1 --spider http://127.0.0.1/ || exit 1
+    CMD curl -f http://127.0.0.1/ || exit 1
 
 # Port HTTP standar yang diekspos
 EXPOSE 80
