@@ -1,0 +1,13 @@
+{
+  "id": "cmq4nb13107rufw1mg8ag0z3g",
+  "v": 2,
+  "name": "Local",
+  "variables": [
+    {
+      "key": "link",
+      "initialValue": "http://127.0.0.1:8003/api",
+      "currentValue": "",
+      "secret": false
+    }
+  ]
+}
