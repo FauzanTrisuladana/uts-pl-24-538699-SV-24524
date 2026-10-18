@@ -6,6 +6,7 @@ use App\Http\Controllers\HistoryRiilController;
 use App\Http\Controllers\MutasiRekeningController;
 use App\Http\Controllers\PenanggungJawabController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -104,6 +105,16 @@ Route::middleware('auth:sanctum')->group(function () {
          * Delete /api/mutasi-rekening/{id} -> delete mutasi rekening
          */
         Route::apiResource('mutasi-rekening', MutasiRekeningController::class)
+            ->except(['show']);
+
+        /**
+         * Route untuk manajemen transaksi
+         * Get /api/transaksi -> get list transaksi
+         * Post /api/transaksi -> create transaksi baru
+         * Put /api/transaksi/{id} -> update transaksi dengan id tertentu
+         * Delete /api/transaksi/{id} -> delete transaksi dengan id tertentu
+         */
+        Route::apiResource('transaksi', TransaksiController::class)
             ->except(['show']);
     });
 });
