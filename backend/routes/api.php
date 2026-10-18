@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -37,5 +38,24 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/update', 'update');
         Route::put('/update-password', 'updatePassword');
         Route::delete('/delete', 'delete');
+    });
+
+    /**
+     * Routes untuk role bendahara
+     * Hanya bisa diakses oleh user dengan role bendahara
+     */
+    Route::middleware('role:bendahara')->group(function () {
+
+        /**
+         * User management routes
+         * Get /api/user -> get list user
+         * Post /api/user -> create user baru
+         * Put /api/user/{id}/toggle-status -> toggle status user dengan id tertentu
+         * Put /api/user/{id} -> update user dengan id tertentu
+         * Delete /api/user/{id} -> delete user dengan id tertentu
+         */
+        Route::put('/user/{id}/toggle-status', [UserController::class, 'toggleStatus']);
+        Route::apiResource('user', UserController::class)
+            ->except(['show']);
     });
 });
