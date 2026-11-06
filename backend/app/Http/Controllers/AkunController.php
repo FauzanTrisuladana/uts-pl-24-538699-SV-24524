@@ -10,6 +10,7 @@ use App\Http\Resources\AkunResource;
 use App\Http\Resources\ApiResource;
 use App\Http\Resources\ApiResourceCollection;
 use App\Models\Akun;
+use Illuminate\Support\Facades\Log;
 
 class AkunController extends Controller
 {
@@ -64,6 +65,15 @@ class AkunController extends Controller
             'keterangan' => $validated['keterangan'] ?? null,
         ]);
 
+        Log::info('Berhasil menyimpan data akun', [
+            'who' => [
+                'user_id' => auth()->id(),
+                'role' => auth()->user()?->role,
+            ],
+            'action' => 'POST /api/akun',
+            'reason' => 'Penambahan akun keuangan baru (ID: '.$akun->id.')',
+        ]);
+
         return (new AkunResource($akun))
             ->message('Akun berhasil dibuat');
     }
@@ -92,6 +102,15 @@ class AkunController extends Controller
 
         $akun->update($validated);
 
+        Log::info('Berhasil memperbarui data akun', [
+            'who' => [
+                'user_id' => auth()->id(),
+                'role' => auth()->user()?->role,
+            ],
+            'action' => 'PUT /api/akun/'.$id,
+            'reason' => 'Pembaruan data akun keuangan (ID: '.$akun->id.')',
+        ]);
+
         return (new AkunResource($akun))
             ->message('Akun berhasil diupdate');
     }
@@ -105,6 +124,15 @@ class AkunController extends Controller
         $akun = Akun::findOrFail($id);
 
         $akun->delete();
+
+        Log::info('Berhasil menghapus data akun', [
+            'who' => [
+                'user_id' => auth()->id(),
+                'role' => auth()->user()?->role,
+            ],
+            'action' => 'DELETE /api/akun/'.$id,
+            'reason' => 'Penghapusan data akun keuangan (ID: '.$id.')',
+        ]);
 
         return (new ApiResource(null))
             ->message('Akun berhasil dihapus');

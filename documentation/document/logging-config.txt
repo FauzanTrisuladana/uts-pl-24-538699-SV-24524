@@ -1,0 +1,1 @@
+{"Type":"json-file","Config":null,"Path":"/home/fratsia/.local/share/containers/storage/overlay-containers/8257b927ae86ae1169af4cc1e51a5119c2eb1a50b427997991423b0c6c7e3978/userdata/ctr.log","Tag":"","Size":"10MB"}

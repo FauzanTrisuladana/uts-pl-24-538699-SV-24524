@@ -61,8 +61,8 @@ RUN mkdir -p /data/caddy /config/caddy /app/storage /app/bootstrap/cache \
 USER www-data
 
 # Konfigurasi HEALTHCHECK untuk memantau status kesehatan server secara periodik
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD curl -f http://127.0.0.1/api/status || curl -f http://127.0.0.1/up || exit 1
+HEALTHCHECK --interval=5s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -f http://127.0.0.1/health || exit 1
 
 # Port yang diekspos oleh FrankenPHP
 EXPOSE 80

@@ -11,6 +11,7 @@ use App\Http\Resources\TransaksiResource;
 use App\Models\RiilHistory;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TransaksiController extends Controller
 {
@@ -89,6 +90,15 @@ class TransaksiController extends Controller
             return $transaksi;
         });
 
+        Log::info('Berhasil menyimpan data transaksi', [
+            'who' => [
+                'user_id' => auth()->id(),
+                'role' => auth()->user()?->role,
+            ],
+            'action' => 'POST /api/transaksi',
+            'reason' => 'Pencatatan transaksi kas baru (ID: '.$transaksi->id.', jenis: '.$transaksi->jenis_transaksi.')',
+        ]);
+
         return (new TransaksiResource($transaksi->load(['akun', 'penanggungJawab', 'penginput'])))
             ->message('Transaksi berhasil dibuat');
     }
@@ -141,6 +151,15 @@ class TransaksiController extends Controller
             return $transaksi;
         });
 
+        Log::info('Berhasil memperbarui data transaksi', [
+            'who' => [
+                'user_id' => auth()->id(),
+                'role' => auth()->user()?->role,
+            ],
+            'action' => 'PUT /api/transaksi/'.$id,
+            'reason' => 'Pembaruan data transaksi kas (ID: '.$transaksi->id.')',
+        ]);
+
         return (new TransaksiResource($transaksi->load(['akun', 'penanggungJawab', 'penginput'])))
             ->message('Transaksi berhasil diperbarui');
     }
@@ -180,6 +199,15 @@ class TransaksiController extends Controller
 
             $transaksi->delete();
         });
+
+        Log::info('Berhasil menghapus data transaksi', [
+            'who' => [
+                'user_id' => auth()->id(),
+                'role' => auth()->user()?->role,
+            ],
+            'action' => 'DELETE /api/transaksi/'.$id,
+            'reason' => 'Penghapusan data transaksi kas (ID: '.$id.')',
+        ]);
 
         return (new ApiResource(null))
             ->message('Transaksi berhasil dihapus');
