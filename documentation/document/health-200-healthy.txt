@@ -1,0 +1,14 @@
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+  0      0   0      0   0      0      0      0                              0100    260 100    260   0      0   7428      0                              0100    260 100    260   0      0   7421      0                              0100    260 100    260   0      0   7419      0                              0
+HTTP/1.1 200 OK
+Cache-Control: no-cache, private
+Content-Type: application/json
+Date: Fri, 06 Nov 2026 15:12:26 GMT
+Server: FrankenPHP Caddy
+Set-Cookie: XSRF-TOKEN=eyJpdiI6Im54ejJrTTVnM1JRQmFQUm5acGU4Tnc9PSIsInZhbHVlIjoiazdFdXFSQTBMM0o0MU9OTk1iTkczOHFISkcyZGNQSWw2NVlWVW8waExpQUE3cG9LK1k4RnJWOGlOZkVKR29RSzFhb3VHbE81bU5CSDRwbUwwQ08xWUhaM0RGRVRGcTRNSmZsNVU2K1VjTkEvMXdGVWcrY1V1UjE4ZHBwdC9TQ1UiLCJtYWMiOiJmNjRhMzNkNTgzNTVhM2EwOTU5NDZhYmNkYTc4NjA5ZDM5MDUzMDk4NjBhYTBkODZmMTRkMjg5MWU1YmNjNDIxIiwidGFnIjoiIn0%3D; expires=Fri, 06 Nov 2026 17:12:26 GMT; Max-Age=7200; path=/; samesite=lax
+Set-Cookie: akuntansi-pemuda-session=eyJpdiI6ImlPbjljTWh5cjVtekxqdkRXQlRyK2c9PSIsInZhbHVlIjoidGdKV1owczJjRGtVRTlOQ0JwNWU1ZGFXOHV3dFk2ODJyWHppelkyRDRiQXE4bk1RUldka0IrUFAvV29LYUJESk9oVFpCdzZMT09DeUtRMXN3RTE4emRoR3ltR203VzBrRk50U0dTY0tYRHJFeVpXZFBBb2d2cjJoZ0d1ZzQ1UUIiLCJtYWMiOiI0OGUwNWI3NjcxN2Y1MjZhZTQ1MGNjNWRmY2RlNDViN2U2YjAxMDhmMWMxOThhYjMyYjZmYzI0MjljMDgzZTc5IiwidGFnIjoiIn0%3D; expires=Fri, 06 Nov 2026 17:12:26 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+X-Powered-By: PHP/8.4.27
+Content-Length: 260
+
+{"status":"healthy","timestamp":"2026-11-06T15:12:26+00:00","failed_components":[],"checks":{"database":{"status":"healthy","message":"Koneksi basis data berhasil terhubung"},"cache":{"status":"healthy","message":"Operasi baca\/tulis cache berfungsi normal"}}}
