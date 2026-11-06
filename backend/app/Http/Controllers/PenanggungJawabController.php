@@ -10,6 +10,7 @@ use App\Http\Resources\ApiResource;
 use App\Http\Resources\ApiResourceCollection;
 use App\Http\Resources\PenanggungJawabResource;
 use App\Models\PenanggungJawab;
+use Illuminate\Support\Facades\Log;
 
 class PenanggungJawabController extends Controller
 {
@@ -72,6 +73,15 @@ class PenanggungJawabController extends Controller
             'nama' => $validated['nama'],
         ]);
 
+        Log::info('Berhasil menyimpan data penanggung jawab', [
+            'who' => [
+                'user_id' => auth()->id(),
+                'role' => auth()->user()?->role,
+            ],
+            'action' => 'POST /api/penanggung-jawab',
+            'reason' => 'Penambahan entitas penanggung jawab baru (ID: '.$pj->id.')',
+        ]);
+
         return (new PenanggungJawabResource($pj))
             ->message('Penanggung jawab berhasil dibuat');
     }
@@ -90,6 +100,15 @@ class PenanggungJawabController extends Controller
             'nama' => $validated['nama'],
         ]);
 
+        Log::info('Berhasil memperbarui data penanggung jawab', [
+            'who' => [
+                'user_id' => auth()->id(),
+                'role' => auth()->user()?->role,
+            ],
+            'action' => 'PUT /api/penanggung-jawab/'.$id,
+            'reason' => 'Pembaruan data penanggung jawab (ID: '.$pj->id.')',
+        ]);
+
         return (new PenanggungJawabResource($pj))
             ->message('Penanggung jawab berhasil diperbarui');
     }
@@ -103,6 +122,15 @@ class PenanggungJawabController extends Controller
         $pj = PenanggungJawab::findOrFail($id);
 
         $pj->delete();
+
+        Log::info('Berhasil menghapus data penanggung jawab', [
+            'who' => [
+                'user_id' => auth()->id(),
+                'role' => auth()->user()?->role,
+            ],
+            'action' => 'DELETE /api/penanggung-jawab/'.$id,
+            'reason' => 'Penghapusan data penanggung jawab (ID: '.$id.')',
+        ]);
 
         return (new ApiResource(null))
             ->message('Penanggung jawab berhasil dihapus');

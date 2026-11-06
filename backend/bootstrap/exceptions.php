@@ -2,9 +2,12 @@
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use PDOException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 $notFoundMessageByModel = function (?string $baseName): string {
@@ -38,6 +41,22 @@ return function (Exceptions $exceptions) use ($notFoundMessageByModel): void {
         } else {
             $message = $firstMessage;
         }
+
+        $user = $request->user();
+        $who = $user ? [
+            'user_id' => $user->id,
+            'role' => $user->role ?? 'user',
+        ] : [
+            'type' => 'guest',
+            'client_ip' => $request->ip(),
+        ];
+
+        Log::warning('Validasi data gagal', [
+            'who' => $who,
+            'action' => $request->method().' '.$request->getRequestUri(),
+            'reason' => 'Field input tidak memenuhi aturan: '.implode(', ', array_keys($errors)),
+            'invalid_fields' => array_keys($errors),
+        ]);
 
         return response()->json([
             'status' => 'error',
@@ -84,6 +103,52 @@ return function (Exceptions $exceptions) use ($notFoundMessageByModel): void {
             'status' => $statusCode === 401 ? 'unauthenticated' : ($statusCode === 403 ? 'forbidden' : 'error'),
             'message' => $message !== '' ? $message : 'Terjadi kesalahan',
         ], $statusCode);
+    });
+
+    $exceptions->render(function (QueryException $e, Request $request) {
+        $user = $request->user();
+        $who = $user ? [
+            'user_id' => $user->id,
+            'role' => $user->role ?? 'user',
+        ] : [
+            'type' => 'guest',
+            'client_ip' => $request->ip(),
+        ];
+
+        Log::error('Gagal menghubungi atau mengeksekusi kueri basis data', [
+            'who' => $who,
+            'action' => $request->method().' '.$request->getRequestUri(),
+            'reason' => $e->getMessage(),
+            'exception' => class_basename($e),
+        ]);
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Terjadi kesalahan koneksi atau kueri pada basis data',
+        ], 500);
+    });
+
+    $exceptions->render(function (PDOException $e, Request $request) {
+        $user = $request->user();
+        $who = $user ? [
+            'user_id' => $user->id,
+            'role' => $user->role ?? 'user',
+        ] : [
+            'type' => 'guest',
+            'client_ip' => $request->ip(),
+        ];
+
+        Log::error('Gagal membuka koneksi PDO ke basis data', [
+            'who' => $who,
+            'action' => $request->method().' '.$request->getRequestUri(),
+            'reason' => $e->getMessage(),
+            'exception' => class_basename($e),
+        ]);
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Terjadi kesalahan koneksi pada basis data',
+        ], 500);
     });
 
     $exceptions->render(function (Throwable $e, Request $request) {
