@@ -7,7 +7,6 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-use PDOException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 $notFoundMessageByModel = function (?string $baseName): string {

@@ -7,4 +7,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/health', [HealthController::class, 'check']);
+Route::get('/health', [HealthController::class, 'check'])
+    ->withoutMiddleware('web');

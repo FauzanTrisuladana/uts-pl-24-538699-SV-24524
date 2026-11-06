@@ -41,19 +41,32 @@ class HealthAndLoggingTest extends TestCase
 
     public function test_health_endpoint_returns_503_when_database_fails(): void
     {
-        // Simulasikan kegagalan basis data dengan memutuskan koneksi default ke basis data yang tidak valid
-        config(['database.connections.sqlite.database' => '/non_existent_directory/invalid.sqlite']);
-        DB::purge('sqlite');
+        $defaultConn = config('database.default');
+        $origPort = config("database.connections.{$defaultConn}.port");
+        $origDb = config("database.connections.{$defaultConn}.database");
 
-        $response = $this->getJson('/health');
+        try {
+            DB::disconnect();
+            config(["database.connections.{$defaultConn}.port" => 9999]);
+            config(["database.connections.{$defaultConn}.database" => '/non_existent_directory/invalid.sqlite']);
+            DB::purge($defaultConn);
 
-        $response->assertStatus(503)
-            ->assertJson([
-                'status' => 'unhealthy',
-            ]);
+            $response = $this->getJson('/health');
 
-        $this->assertContains('database', $response->json('failed_components'));
-        $this->assertEquals('unhealthy', $response->json('checks.database.status'));
+            $response->assertStatus(503)
+                ->assertJson([
+                    'status' => 'unhealthy',
+                ]);
+
+            $this->assertContains('database', $response->json('failed_components'));
+            $this->assertEquals('unhealthy', $response->json('checks.database.status'));
+        } finally {
+            DB::disconnect();
+            config(["database.connections.{$defaultConn}.port" => $origPort]);
+            config(["database.connections.{$defaultConn}.database" => $origDb]);
+            DB::purge($defaultConn);
+            DB::reconnect($defaultConn);
+        }
     }
 
     public function test_structured_log_recorded_on_validation_failure(): void
