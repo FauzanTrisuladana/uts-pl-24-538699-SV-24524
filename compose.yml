@@ -19,6 +19,11 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   phpmyadmin:
     image: docker.io/phpmyadmin:latest
@@ -33,6 +38,11 @@ services:
       - db
     networks:
       - kepl
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   backend:
     build:
@@ -55,17 +65,25 @@ services:
       DB_USERNAME: ${DB_USERNAME:-root}
       DB_PASSWORD: ${DB_PASSWORD:-}
       SESSION_DRIVER: database
+      LOG_CHANNEL: ${LOG_CHANNEL:-stdout}
+      LOG_STACK: ${LOG_STACK:-stdout}
+      CACHE_STORE: ${CACHE_STORE:-file}
     depends_on:
       db:
         condition: service_healthy
     networks:
       - kepl
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/api/status"]
-      interval: 1h
-      timeout: 10s
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 5s
+      timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   frontend:
     build:
@@ -81,6 +99,11 @@ services:
       - backend
     networks:
       - kepl
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/"]
       interval: 10s

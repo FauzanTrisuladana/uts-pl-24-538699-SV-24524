@@ -3,6 +3,7 @@
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HealthController;
 use App\Http\Controllers\HistoryRiilController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MutasiRekeningController;
@@ -19,6 +20,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/status', function () {
     return response()->json(['status' => 'ok']);
 });
+
+/**
+ * Health check route (database & cache).
+ * Get /api/health
+ */
+Route::get('/health', [HealthController::class, 'check']);
 
 /**
  * Route untuk autentikasi.
