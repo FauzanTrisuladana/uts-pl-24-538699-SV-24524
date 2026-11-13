@@ -71,3 +71,12 @@ curl -s http://localhost:8007/metrics 2>&1 | tee documentation/document/p11-metr
 
 # 4. Pemeriksaan status seluruh target Prometheus (/api/v1/targets) harus UP
 curl -s http://localhost:9090/api/v1/targets 2>&1 | tee documentation/document/p11-targets-up.txt
+
+# 5. Verifikasi keamanan Grafana: pastikan login admin/admin ditolak (401) dan password baru berhasil (200)
+(curl -s -i -u "admin:admin" http://localhost:3002/api/org | head -n 5; echo "---"; curl -s -i -u "admin:KeplGrafana2026!" http://localhost:3002/api/org | head -n 10) 2>&1 | tee documentation/document/p11-grafana-auth.txt
+
+# 6. Simulasi alarm: mematikan layanan backend secara sengaja untuk memicu alert LayananBackendMati
+podman compose stop backend 2>&1 | tee documentation/document/p11-backend-stop.txt
+
+# 7. Verifikasi status alert di Prometheus API (/api/v1/alerts) sudah berubah menjadi FIRING
+curl -s http://localhost:9090/api/v1/alerts 2>&1 | tee documentation/document/p11-alert-firing.txt
