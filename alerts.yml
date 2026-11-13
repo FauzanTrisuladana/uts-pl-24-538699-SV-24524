@@ -1,0 +1,24 @@
+groups:
+  - name: akuntansi-pemuda-alerts
+    rules:
+      - alert: LayananBackendMati
+        expr: up{job="backend-akuntansi"} == 0
+        for: 15s
+        labels:
+          severity: critical
+          service: backend
+        annotations:
+          summary: "Layanan backend Akuntansi Pemuda tidak dapat dijangkau (DOWN)"
+          description: "Target backend-akuntansi gagal merespons scrape Prometheus selama lebih dari 15 detik."
+          first_action: "Tindakan pertama: periksa status container dengan 'podman ps -a', cek error terakhir lewat 'podman compose logs --tail=50 backend', lalu hidupkan kembali layanan dengan 'podman compose start backend'."
+
+      - alert: KegagalanDatabaseBackend
+        expr: app_health_status{component="database"} == 0
+        for: 15s
+        labels:
+          severity: critical
+          service: db
+        annotations:
+          summary: "Koneksi database MySQL pada backend gagal (UNHEALTHY)"
+          description: "Endpoint /metrics melaporkan komponen database bermasalah selama lebih dari 15 detik."
+          first_action: "Tindakan pertama: periksa status container MySQL dengan 'podman ps -a', cek log error dengan 'podman compose logs --tail=50 db', lalu pulihkan layanan dengan 'podman compose start db'."

@@ -1,6 +1,6 @@
 services:
   db:
-    image: docker.io/library/mysql:latest
+    image: docker.io/library/mysql:9.7.1
     container_name: uts-kepl-mysql
     restart: always
     environment:
@@ -26,7 +26,7 @@ services:
         max-file: "3"
 
   phpmyadmin:
-    image: docker.io/phpmyadmin:latest
+    image: docker.io/phpmyadmin:5.2
     container_name: uts-kepl-phpmyadmin
     restart: always
     environment:
@@ -111,6 +111,103 @@ services:
       retries: 3
       start_period: 5s
 
+  prometheus:
+    image: docker.io/prom/prometheus:v2.55.1
+    container_name: uts-kepl-prometheus
+    restart: always
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=7d"
+      - "--web.enable-lifecycle"
+    ports:
+      - "${PROMETHEUS_HOST_PORT:-9090}:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
+      - ./alerts.yml:/etc/prometheus/alerts.yml:ro,Z
+      - kepl_prometheus_data:/prometheus:Z
+    depends_on:
+      - backend
+      - cadvisor
+      - node-exporter
+    networks:
+      - kepl
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  grafana:
+    image: docker.io/grafana/grafana:11.5.2
+    container_name: uts-kepl-grafana
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-KeplGrafana2026!}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    ports:
+      - "${GRAFANA_HOST_PORT:-3002}:3000"
+    volumes:
+      - kepl_grafana_data:/var/lib/grafana:Z
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro,Z
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro,Z
+    depends_on:
+      - prometheus
+    networks:
+      - kepl
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: uts-kepl-cadvisor
+    restart: always
+    privileged: true
+    command:
+      - "--port=8080"
+      - "--docker_only=false"
+      - "--store_container_labels=false"
+    ports:
+      - "${CADVISOR_HOST_PORT:-8085}:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /sys:/sys:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    networks:
+      - kepl
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  node-exporter:
+    image: docker.io/prom/node-exporter:v1.9.0
+    container_name: uts-kepl-node-exporter
+    restart: always
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/rootfs"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    ports:
+      - "${NODE_EXPORTER_HOST_PORT:-9100}:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    networks:
+      - kepl
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
 networks:
   kepl:
     name: kepl
@@ -118,3 +215,7 @@ networks:
 volumes:
   kepl_mysql_data:
     name: kepl_mysql_data
+  kepl_prometheus_data:
+    name: kepl_prometheus_data
+  kepl_grafana_data:
+    name: kepl_grafana_data

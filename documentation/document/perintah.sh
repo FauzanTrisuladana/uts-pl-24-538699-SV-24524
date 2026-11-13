@@ -55,3 +55,19 @@ podman ps 2>&1 | tee documentation/document/db-restarted-healthy-ps.txt
 
 # 12. Pemeriksaan pembatasan ukuran log (max-size 10MB dan max-file) pada konfigurasi container
 podman inspect uts-kepl-backend --format '{{json .HostConfig.LogConfig}}' 2>&1 | tee documentation/document/logging-config.txt
+
+# ==============================================================================
+# PERINTAH PERTEMUAN 11: MONITORING PROMETHEUS, GRAFANA, CADVISOR, NODE-EXPORTER
+# ==============================================================================
+
+# 1. Pengaktifan seluruh stack aplikasi dan 4 layanan pemantau (prometheus, grafana, cadvisor, node-exporter)
+podman compose up -d --build 2>&1 | tee documentation/document/p11-compose-up.txt
+
+# 2. Pemeriksaan status seluruh container aplikasi dan pemantau
+podman ps 2>&1 | tee documentation/document/p11-podman-ps.txt
+
+# 3. Pengujian endpoint /metrics pada backend Laravel dalam format Prometheus
+curl -s http://localhost:8007/metrics 2>&1 | tee documentation/document/p11-metrics-output.txt
+
+# 4. Pemeriksaan status seluruh target Prometheus (/api/v1/targets) harus UP
+curl -s http://localhost:9090/api/v1/targets 2>&1 | tee documentation/document/p11-targets-up.txt

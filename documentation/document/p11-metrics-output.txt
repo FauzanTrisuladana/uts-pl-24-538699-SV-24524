@@ -1,0 +1,59 @@
+# HELP app_up Status kesehatan keseluruhan aplikasi Akuntansi Pemuda (1 = sehat, 0 = bermasalah)
+# TYPE app_up gauge
+app_up 1
+# HELP app_health_status Status kesehatan masing-masing komponen aplikasi (1 = healthy, 0 = unhealthy)
+# TYPE app_health_status gauge
+app_health_status{component="database"} 1
+app_health_status{component="cache"} 1
+# HELP app_http_requests_total Jumlah kumulatif permintaan HTTP yang diproses backend
+# TYPE app_http_requests_total counter
+app_http_requests_total{method="DELETE",route="/api/akun/{akun}",status="200"} 1
+app_http_requests_total{method="DELETE",route="/api/mutasi-rekening/{mutasi_rekening}",status="200"} 1
+app_http_requests_total{method="DELETE",route="/api/penanggung-jawab/{penanggung_jawab}",status="200"} 1
+app_http_requests_total{method="DELETE",route="/api/profile/delete",status="200"} 1
+app_http_requests_total{method="DELETE",route="/api/transaksi/{transaksi}",status="200"} 1
+app_http_requests_total{method="DELETE",route="/api/user/{user}",status="200"} 1
+app_http_requests_total{method="GET",route="/api/akun/dropdown",status="200"} 1
+app_http_requests_total{method="GET",route="/api/akun/{akun}",status="200"} 1
+app_http_requests_total{method="GET",route="/api/akun",status="200"} 1
+app_http_requests_total{method="GET",route="/api/dashboard",status="200"} 1
+app_http_requests_total{method="GET",route="/api/dashboard",status="422"} 1
+app_http_requests_total{method="GET",route="/api/health",status="200"} 1
+app_http_requests_total{method="GET",route="/api/history-riil",status="200"} 1
+app_http_requests_total{method="GET",route="/api/laporan/pdf",status="200"} 1
+app_http_requests_total{method="GET",route="/api/laporan",status="200"} 1
+app_http_requests_total{method="GET",route="/api/mutasi-rekening",status="200"} 1
+app_http_requests_total{method="GET",route="/api/penanggung-jawab/dropdown",status="200"} 1
+app_http_requests_total{method="GET",route="/api/penanggung-jawab/{penanggung_jawab}",status="200"} 1
+app_http_requests_total{method="GET",route="/api/penanggung-jawab",status="200"} 1
+app_http_requests_total{method="GET",route="/api/profile/me",status="200"} 1
+app_http_requests_total{method="GET",route="/api/status",status="200"} 3
+app_http_requests_total{method="GET",route="/api/transaksi",status="200"} 1
+app_http_requests_total{method="GET",route="/api/user",status="200"} 1
+app_http_requests_total{method="GET",route="/api/user",status="403"} 1
+app_http_requests_total{method="GET",route="/health",status="200"} 300
+app_http_requests_total{method="GET",route="/health",status="503"} 1
+app_http_requests_total{method="GET",route="/",status="200"} 2
+app_http_requests_total{method="POST",route="/api/akun",status="201"} 1
+app_http_requests_total{method="POST",route="/api/auth/login",status="200"} 1
+app_http_requests_total{method="POST",route="/api/auth/login",status="401"} 1
+app_http_requests_total{method="POST",route="/api/auth/login",status="403"} 1
+app_http_requests_total{method="POST",route="/api/auth/login",status="422"} 1
+app_http_requests_total{method="POST",route="/api/auth/logout",status="200"} 1
+app_http_requests_total{method="POST",route="/api/auth/logout",status="401"} 1
+app_http_requests_total{method="POST",route="/api/mutasi-rekening",status="201"} 1
+app_http_requests_total{method="POST",route="/api/mutasi-rekening",status="422"} 1
+app_http_requests_total{method="POST",route="/api/penanggung-jawab",status="201"} 2
+app_http_requests_total{method="POST",route="/api/penanggung-jawab",status="422"} 1
+app_http_requests_total{method="POST",route="/api/transaksi",status="201"} 2
+app_http_requests_total{method="POST",route="/api/user",status="201"} 1
+app_http_requests_total{method="PUT",route="/api/akun/{akun}",status="200"} 1
+app_http_requests_total{method="PUT",route="/api/history-riil/{id}/verify",status="200"} 1
+app_http_requests_total{method="PUT",route="/api/mutasi-rekening/{mutasi_rekening}",status="200"} 1
+app_http_requests_total{method="PUT",route="/api/penanggung-jawab/{penanggung_jawab}",status="200"} 1
+app_http_requests_total{method="PUT",route="/api/profile/update-password",status="200"} 1
+app_http_requests_total{method="PUT",route="/api/profile/update-password",status="422"} 1
+app_http_requests_total{method="PUT",route="/api/profile/update",status="200"} 1
+app_http_requests_total{method="PUT",route="/api/transaksi/{transaksi}",status="200"} 1
+app_http_requests_total{method="PUT",route="/api/user/{id}/toggle-status",status="200"} 1
+app_http_requests_total{method="PUT",route="/api/user/{user}",status="200"} 1
