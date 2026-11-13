@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\HistoryRiilController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\MetricsController;
 use App\Http\Controllers\MutasiRekeningController;
 use App\Http\Controllers\PenanggungJawabController;
 use App\Http\Controllers\ProfileController;
@@ -26,6 +27,12 @@ Route::get('/status', function () {
  * Get /api/health
  */
 Route::get('/health', [HealthController::class, 'check']);
+
+/**
+ * Prometheus metrics route.
+ * Get /api/metrics
+ */
+Route::get('/metrics', [MetricsController::class, 'index']);
 
 /**
  * Route untuk autentikasi.

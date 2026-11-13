@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\MetricsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,4 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/health', [HealthController::class, 'check'])
+    ->withoutMiddleware('web');
+
+Route::get('/metrics', [MetricsController::class, 'index'])
     ->withoutMiddleware('web');

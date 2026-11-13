@@ -112,4 +112,20 @@ class HealthAndLoggingTest extends TestCase
 
         $response->assertStatus(201);
     }
+
+    public function test_metrics_endpoint_returns_prometheus_format(): void
+    {
+        $this->getJson('/health')->assertStatus(200);
+
+        $response = $this->get('/metrics');
+
+        $response->assertStatus(200);
+        $this->assertStringContainsString('text/plain', (string) $response->headers->get('Content-Type'));
+        $content = (string) $response->getContent();
+        $this->assertStringContainsString('# TYPE app_up gauge', $content);
+        $this->assertStringContainsString('app_up 1', $content);
+        $this->assertStringContainsString('app_health_status{component="database"} 1', $content);
+        $this->assertStringContainsString('app_health_status{component="cache"} 1', $content);
+        $this->assertStringContainsString('app_http_requests_total{method="GET",route="/health",status="200"}', $content);
+    }
 }
