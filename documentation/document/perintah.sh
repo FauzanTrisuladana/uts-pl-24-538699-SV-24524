@@ -60,29 +60,72 @@ podman inspect uts-kepl-backend --format '{{json .HostConfig.LogConfig}}' 2>&1 |
 # PERINTAH PERTEMUAN 11: MONITORING PROMETHEUS, GRAFANA, CADVISOR, NODE-EXPORTER
 # ==============================================================================
 
-# 1. Pengaktifan seluruh stack aplikasi dan 4 layanan pemantau (prometheus, grafana, cadvisor, node-exporter)
+# 1. Pembuatan feature branch baru untuk implementasi monitoring
+git checkout -b feature/monitoring-prometheus-grafana
+
+# 2. Pengujian otomatis backend Laravel setelah penambahan endpoint /metrics
+cd backend && php artisan test && cd ..
+
+# 3. Checkpoint 1: commit & push instrumentasi endpoint /metrics
+git add backend/ && git commit -m "feat(backend): tambah endpoint /metrics dan middleware penghitung request untuk Prometheus"
+git push -u origin feature/monitoring-prometheus-grafana
+
+# 4. Build image & aktifkan stack aplikasi + 4 layanan pemantau
 podman compose up -d --build 2>&1 | tee documentation/document/p11-compose-up.txt
 
-# 2. Pemeriksaan status seluruh container aplikasi dan pemantau
+# 5. Pembersihan container gagal setelah menghapus mount /var/run pada cadvisor, lalu restart stack
+podman rm -f uts-kepl-grafana uts-kepl-prometheus uts-kepl-cadvisor
+podman compose up -d 2>&1 | tee documentation/document/p11-compose-up.txt
+
+# 6. Pemeriksaan status seluruh container aplikasi dan pemantau (8 container aktif)
 podman ps 2>&1 | tee documentation/document/p11-podman-ps.txt
 
-# 3. Pengujian endpoint /metrics pada backend Laravel dalam format Prometheus
+# 7. Pemanasan trafik & pengujian endpoint /health, /api/status, serta /metrics
+curl -s http://localhost:8007/health
+curl -s http://localhost:8007/api/status
 curl -s http://localhost:8007/metrics 2>&1 | tee documentation/document/p11-metrics-output.txt
 
-# 4. Pemeriksaan status seluruh target Prometheus (/api/v1/targets) harus UP
+# 8. Pemeriksaan status seluruh target Prometheus (/api/v1/targets) harus UP
 curl -s http://localhost:9090/api/v1/targets 2>&1 | tee documentation/document/p11-targets-up.txt
 
-# 5. Verifikasi keamanan Grafana: pastikan login admin/admin ditolak (401) dan password baru berhasil (200)
+# 9. Verifikasi label cAdvisor Podman & muat ulang Grafana dengan query PromQL bersih
+curl -s --get --data-urlencode 'query=sum by (container) (label_replace(container_memory_working_set_bytes{id=~".*libpod-.*\\.scope/container"}, "container", "$1", "id", ".*libpod-([a-f0-9]{12}).*"))' http://localhost:9090/api/v1/query
+curl -s --get --data-urlencode 'query=sum by (container) (label_replace(rate(container_cpu_usage_seconds_total{id=~".*libpod-.*\\.scope/container"}[5m]), "container", "$1", "id", ".*libpod-([a-f0-9]{12}).*")) * 100' http://localhost:9090/api/v1/query
+podman restart uts-kepl-grafana
+
+# 10. Checkpoint 2: commit & push konfigurasi compose, prometheus, grafana, cadvisor, node-exporter
+git add .env.example compose.yml prometheus.yml alerts.yml monitoring/ documentation/document/perintah.sh documentation/document/p11-compose-up.txt documentation/document/p11-metrics-output.txt documentation/document/p11-podman-ps.txt documentation/document/p11-targets-up.txt
+git commit -m "feat(monitoring): add prometheus, grafana, cadvisor, node-exporter stack and verify targets UP"
+git push origin feature/monitoring-prometheus-grafana
+
+# 11. Penamaan ulang screenshot batch 1 (/targets, login Grafana, dan dashboard Grafana)
+cd documentation/image/p11 && mv Screenshot_20261113_121249.png targets-up.png && mv Screenshot_20261113_121329.png grafana-login.png && mv Screenshot_20261113_121407.png grafana-dashboard.png && cd ../../..
+
+# 12. Verifikasi keamanan Grafana: admin/admin ditolak (401), password baru berhasil (200)
 (curl -s -i -u "admin:admin" http://localhost:3002/api/org | head -n 5; echo "---"; curl -s -i -u "admin:KeplGrafana2026!" http://localhost:3002/api/org | head -n 10) 2>&1 | tee documentation/document/p11-grafana-auth.txt
 
-# 6. Simulasi alarm: mematikan layanan backend secara sengaja untuk memicu alert LayananBackendMati
+# 13. Simulasi alarm: mematikan layanan backend secara sengaja untuk memicu alert LayananBackendMati
 podman compose stop backend 2>&1 | tee documentation/document/p11-backend-stop.txt
 
-# 7. Verifikasi status alert di Prometheus API (/api/v1/alerts) sudah berubah menjadi FIRING
+# 14. Verifikasi status alert di Prometheus API (/api/v1/alerts) berubah menjadi FIRING
 curl -s http://localhost:9090/api/v1/alerts 2>&1 | tee documentation/document/p11-alert-firing.txt
 
-# 8. Pemulihan layanan: menyalakan kembali container backend setelah simulasi alert FIRING
+# 15. Checkpoint 3: commit & push bukti auth Grafana, screenshot, dan alert FIRING
+git add documentation/image/p11/ documentation/document/perintah.sh documentation/document/p11-grafana-auth.txt documentation/document/p11-backend-stop.txt documentation/document/p11-alert-firing.txt
+git commit -m "test(monitoring): verify grafana auth, add screenshots, and trigger FIRING alert"
+git push origin feature/monitoring-prometheus-grafana
+
+# 16. Penamaan ulang screenshot batch 2 (dashboard backend DOWN, overview alerts, dan detail FIRING)
+cd documentation/image/p11 && mv alert-firing.png alert-firing-overview.png && mv grafana-dashboard-backend-down.png alert-firing.png && mv Screenshot_20261113_122047.png grafana-dashboard-backend-down.png && cd ../../..
+
+# 17. Pemulihan layanan: menyalakan kembali container backend setelah simulasi alert FIRING
 podman compose start backend 2>&1 | tee documentation/document/p11-backend-start.txt
 
-# 9. Verifikasi target Prometheus kembali UP setelah backend dipulihkan
+# 18. Verifikasi target Prometheus kembali UP dan daftar alert kembali kosong
 curl -s http://localhost:9090/api/v1/targets 2>&1 | tee documentation/document/p11-targets-recovered.txt
+curl -s http://localhost:9090/api/v1/alerts
+
+# 19. Checkpoint 4: commit & push screenshot FIRING, log pemulihan, dan perintah lengkap
+git add documentation/image/p11/ documentation/document/perintah.sh documentation/document/p11-backend-start.txt documentation/document/p11-targets-recovered.txt
+git commit -m "docs(monitoring): add FIRING alert and recovery verification screenshots and logs"
+git push origin feature/monitoring-prometheus-grafana
