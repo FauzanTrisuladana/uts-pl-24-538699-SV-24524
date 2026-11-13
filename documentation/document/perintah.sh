@@ -80,3 +80,9 @@ podman compose stop backend 2>&1 | tee documentation/document/p11-backend-stop.t
 
 # 7. Verifikasi status alert di Prometheus API (/api/v1/alerts) sudah berubah menjadi FIRING
 curl -s http://localhost:9090/api/v1/alerts 2>&1 | tee documentation/document/p11-alert-firing.txt
+
+# 8. Pemulihan layanan: menyalakan kembali container backend setelah simulasi alert FIRING
+podman compose start backend 2>&1 | tee documentation/document/p11-backend-start.txt
+
+# 9. Verifikasi target Prometheus kembali UP setelah backend dipulihkan
+curl -s http://localhost:9090/api/v1/targets 2>&1 | tee documentation/document/p11-targets-recovered.txt
